@@ -2,7 +2,7 @@ import random
 
 class Garden():
     def __init__(self):
-        self.trees = []
+        self.trees = [Tree(), Tree(), Tree()]
         self.gnomes = []
         self.woodchucks = []
         self.water = 100
@@ -17,7 +17,7 @@ class Gnome():
     
 class Woodchuck():
     def __init__(self):
-        self.luck = 5
+        self.luck = 2
     
 garden = Garden()
 day = 0
@@ -27,11 +27,11 @@ chompChance = 0
 waterTaken = 0
 while(True):
     day += 1
-    print(f"It is now day {day}!")
+    print(f"It is now day {day}! You have {len(garden.trees)} trees living in your garden.")
     
     if day % 10 == 0:
         # Random chance of earning another Tree or Gnome
-        if random.randrange(1,3) <= 1:
+        if random.randrange(1,11) <= 8:
             if random.randrange(1,6) <= 3 :
                 print("A tree has been added to your garden. Lucky!")
                 garden.trees.append(Tree())
@@ -39,13 +39,14 @@ while(True):
                 print("A gnome has been added to your garden. Lucky!")
                 garden.gnomes.append(Gnome())
     
-    # Random chance of woodchuck moving in
-    if random.randrange(1,101) <= 1:
-        print("A woodchuck has moved into your garden. Watch out!")
-        garden.woodchucks.append(Woodchuck())
+    # Random chance of woodchuck moving in (up until 10 because of balance reasons)
+    if len(garden.woodchucks) < 10:
+        if random.randrange(1,101) <= 1:
+            print("A woodchuck has moved into your garden. Watch out!")
+            garden.woodchucks.append(Woodchuck())
     
     # Random chance of rain occuring
-    rainChance = random.randrange(1,101)
+    rainChance = random.randrange(25,51)
     for gnome in garden.gnomes:
         rainChance += gnome.luck
     if random.randrange(1,101) <= rainChance:
@@ -53,7 +54,7 @@ while(True):
         garden.water += 20
     
     # Check if the garden survives to live another day
-    waterTaken = random.randrange(1,10)
+    waterTaken = random.randrange(1,30)
     for tree in garden.trees:
         waterTaken -= tree.shade
     garden.water -= waterTaken
@@ -72,4 +73,7 @@ while(True):
     # Check if we have reached the goal amount of trees
     if len(garden.trees) >= goal:
         print(f"You have reached {goal} trees! Congratulations!")
+        break
+    if len(garden.trees) <= 0:
+        print("The woodchucks have taken over! The garden is in ruin. Game over.")
         break
