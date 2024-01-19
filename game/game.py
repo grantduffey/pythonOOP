@@ -1,5 +1,5 @@
 class Character():
-    def __init__(self, health, defense, attack, speed, luck, name):#, movelist) -> None:
+    def __init__(self, health, defense, attack, speed, luck, name):#, movelist):
         self.health = health
         self.defense = defense
         self.attack = attack
@@ -9,13 +9,18 @@ class Character():
         # self.movelist = movelist
     
     def alive(self):
-        if self.health > 0: return True
-        return False
+        if self.health > 0: return False
+        return True
 
+    def status(self):
+        print(f"\n{self.name}'s stats:\nHealth: {self.health}\nDefense: {self.defense}\nAttack: {self.attack}\nSpeed: {self.speed}\nLuck: {self.luck}\n")
 
-class Action():
-    def __init__(self) -> None:
+    def action(self, enemy):
+        # Calls move function within the Character class.
         pass
+# class Action():
+#     def __init__(self):
+#         pass
 
 def changeStat(stat, statName, baseStat, minPoints, points):
     choice = input(f"Would you like to (1) Increase your {statName} or (2) Decrease your {statName}? ({statName} must be at least {(baseStat - minPoints)})| ")
@@ -97,6 +102,27 @@ def main():
     p2 = createChar()
 
     while(p1.alive() and p2.alive()):
-        pass
+        p1.status()
+        p2.status()
+        if p1.speed > p2.speed:
+            # P1 Does their move first
+            p1.action(p2)
+            if p2.alive():
+                print(f"{p1.name} is the winner!")
+                break
+            p2.action(p1)
+            if p1.alive():
+                print(f"{p2.name} is the winner!")
+                break
+        else:
+            # P2 Does their move first
+            p2.action(p1)
+            if p1.alive():
+                print(f"{p2.name} is the winner!")
+                break
+            p1.action(p2)
+            if p2.alive():
+                print(f"{p1.name} is the winner!")
+                break
 
 main()
