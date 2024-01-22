@@ -20,36 +20,39 @@ class Character():
         damage = self.attack - enemy.defense
         if damage > 0:
             enemy.health -= damage
-            print(f"{enemy.name} took {damage} damage from {self.name}'s normal attack! {enemy.name} has {enemy.health} health.")
+            if enemy.health < 0: enemy.health = 0
+            print(f"{enemy.name} took {damage} damage from {self.name}'s normal attack! {enemy.name} has {enemy.health} health.\n")
         else:
-            print(f"{self.name}'s attack did no damage!")
+            print(f"{self.name}'s attack did no damage!\n")
     
     def reckAttack(self, enemy):
         damage = self.attack + int(round((self.attack/2))) - enemy.defense
         if damage > 0:
             enemy.health -= damage
-            print(f"{enemy.name} took {damage} damage from {self.name}'s reckless attack! {enemy.name} has {enemy.health} health.")
+            if enemy.health < 0: enemy.health = 0
+            print(f"{enemy.name} took {damage} damage from {self.name}'s reckless attack! {enemy.name} has {enemy.health} health.\n")
         else:
-            print(f"{self.name}'s attack did no damage!")
+            print(f"{self.name}'s attack did no damage!\n")
             
-        if random.randrange(1, 101) + self.luck >= 50:
+        if random.randrange(1, 101) + self.luck >= 60:
             pass
         else:
             self.health -= int(round(damage/2))
             if self.health < 0: self.health = 0
-            print(f"{self.name}'s reckless attack hurt them in the process! {self.name} has {self.health} health!")
+            print(f"{self.name}'s reckless attack hurt them in the process! {self.name} has {self.health} health!\n")
         
     
     def stunAttack(self, enemy):
         damage = int(round((self.attack - enemy.defense)/2))
         if damage > 0:
             enemy.health -= damage
-            print(f"{enemy.name} took {damage} damage from {self.name}'s stun attack! {enemy.name} has {enemy.health} health.")
+            if enemy.health < 0: enemy.health = 0
+            print(f"{enemy.name} took {damage} damage from {self.name}'s stun attack! {enemy.name} has {enemy.health} health.\n")
         else:
-            print(f"{self.name}'s attack did no damage!")
+            print(f"{self.name}'s attack did no damage!\n")
         
         if random.randrange(1, 101) + self.luck >= 50:
-            print(f"{enemy.name} has been stunned! {self.name} get's an extra turn.")
+            print(f"{enemy.name} has been stunned! {self.name} get's an extra turn.\n")
             self.action(enemy)
     
     def focus(self):
@@ -58,33 +61,33 @@ class Character():
         
         if choice == "1":
             self.attack += 5 + random.randrange(1, self.luck+1)
-            print(f"{self.name}'s attack is now {self.attack}!")
+            print(f"{self.name}'s attack is now {self.attack}!\n")
         
         elif choice == "2":
             self.defense += 5 + random.randrange(1, self.luck+1)
-            print(f"{self.name}'s defense is now {self.defense}!")
+            print(f"{self.name}'s defense is now {self.defense}!\n")
         
         elif choice == "3":
             self.speed += 5 + random.randrange(1, self.luck+1)
-            print(f"{self.name}'s speed is now {self.speed}!")
+            print(f"{self.name}'s speed is now {self.speed}!\n")
         
         elif choice == "4":
             self.luck += 5 + random.randrange(1, self.luck+1)
-            print(f"{self.name}'s luck is now {self.luck}!")
+            print(f"{self.name}'s luck is now {self.luck}!\n")
     
         else:
             print(f"\n{self.name} has not input a valid option and has forfeited their turn!\n")
     
     def rest(self):
-        self.health += 25 + random.randrange(1, self.luck+1)
+        self.health += 10 + random.randrange(1, self.luck+1)
         if self.health > 100: self.health = 100
-        print(f"{self.name}'s health is now {self.health}!")
+        print(f"{self.name}'s health is now {self.health}!\n")
     
     def action(self, enemy):
         # Calls move function within the Character class.
         print(f"{self.name}, it's your turn! Choose your move:")
         print("(1) Normal Attack    (2) Reckless Attack    (3) Stun Attack")
-        print("(4) Focus            (5) Rest               (6) Forfeit")
+        print("(4) Focus            (5) Rest               (6) Forfeit\n")
         choice = input("What will you do? | ")
         if choice == "1":
             self.normAttack(enemy)
@@ -112,18 +115,18 @@ def changeStat(stat, statName, baseStat, minPoints, points):
         
     if choice == "1":
         if points == 0:
-            print(f"\nYou have no points to increase your {statName} with. Please decrease points from another stat first!")
+            print(f"\nYou have no points to increase your {statName} with. Please decrease points from another stat first!\n")
             return stat
         amount = int(input(f"\nYou have {points} points remaining. By how much would you like to increase your {statName}? | "))
         if amount > points:
-            print("\nYou have exceeded the number of points you have available. Please only attempt to use the points you have!")
+            print("\nYou have exceeded the number of points you have available. Please only attempt to use the points you have!\n")
             return stat
         stat += amount
     
     if choice == "2":
         amount = int(input(f"\nYou have {stat} {statName}. By how much would you like to decrease your {statName}? (Minimum {(baseStat-minPoints)}) | "))
         if (stat - amount) < (baseStat - minPoints):
-            print(f"\nYou took away too much! Please only take away at most {minPoints} points from a given stat")
+            print(f"\nYou took away too much! Please only take away at most {minPoints} points from a given stat\n")
             return stat
         stat -= amount
             
